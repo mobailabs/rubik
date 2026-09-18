@@ -28,5 +28,10 @@
       "@repo/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/lib/engine/judge-parity.ts",
+    "src/lib/engine/engine-smoke.ts",
+    "src/lib/engine/stub-globals.ts"
+  ]
 }

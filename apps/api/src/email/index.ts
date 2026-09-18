@@ -44,8 +44,20 @@ async function send(env: Env, mail: Mail) {
       text,
     })
   } catch (error) {
+    // 发不出去**不能**抛出去。
+    //
+    // 之前这里是 throw，后果比"邮件没到"严重得多：better-auth 在注册/重置流程里
+    // await 这个 promise，一抛整个请求就 500 —— 账号建不成、密码也重置不了，
+    // 而用户只看到一句"出错了"，不知道是邮件的问题。
+    //
+    // 现在降级成打日志：自用单用户，要重置密码时 `wrangler tail` 里直接取链接。
+    // ⚠️ 日志里有一次性 token，别把 tail 的输出贴到公开的地方。
     const code = (error as { code?: string }).code ?? "UNKNOWN"
-    throw new Error(`Email send failed (${code}): ${(error as Error).message}`)
+    console.error(
+      `[email] send failed (${code}): ${(error as Error).message}`,
+      `to=${mail.to}`,
+    )
+    console.info(`[email] ${mail.subject} → ${mail.to} : ${mail.url}`)
   }
 }
 

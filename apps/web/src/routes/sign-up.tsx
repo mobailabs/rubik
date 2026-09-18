@@ -1,36 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { SignUpForm } from "@/components/auth/sign-up-form"
-import { AuthHeading } from "@/components/auth/auth-heading"
-import { AuthLink } from "@/components/auth/auth-link"
-import { Divider } from "@/components/auth/divider"
-import { SocialSignIn } from "@/components/auth/social-sign-in"
-import { AuthLayout } from "@/components/layout/auth-layout"
-import { requireNoSession } from "@/lib/guards"
-import { pageHead } from "@/lib/site"
+import { createFileRoute, redirect } from "@tanstack/react-router"
 
+/**
+ * 注册已关（服务端同时收口，见 apps/api/src/auth/policy.ts 的 isSignUpPath）。
+ *
+ * 这里只是不让页面显示出来 —— 真正的边界在服务端 hooks.before，
+ * 直接 POST /api/auth/sign-up/email 一样被拒。要临时开：ALLOW_SIGNUP="true"。
+ */
 export const Route = createFileRoute("/sign-up")({
-  head: () =>
-    pageHead({
-      title: "Sign up",
-      description: "Create a Rubik account with email, GitHub, or Google.",
-      path: "/sign-up",
-    }),
-  beforeLoad: requireNoSession,
-  component: SignUpPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/sign-in" })
+  },
 })
-
-function SignUpPage() {
-  return (
-    <AuthLayout>
-      <div className="flex flex-col gap-6">
-        <AuthHeading title="Create account" />
-        <SignUpForm />
-        <Divider label="or" />
-        <SocialSignIn />
-        <p className="text-white/70 text-sm">
-          Have an account? <AuthLink to="/sign-in">Sign in</AuthLink>
-        </p>
-      </div>
-    </AuthLayout>
-  )
-}

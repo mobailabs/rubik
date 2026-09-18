@@ -16,6 +16,14 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardWbRouteImport } from './routes/dashboard/wb'
+import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
+import { Route as DashboardPlayerIndexRouteImport } from './routes/dashboard/player/index'
+import { Route as DashboardPlayerLessonIdRouteImport } from './routes/dashboard/player/$lessonId'
+import { Route as DashboardPracticeIndexRouteImport } from './routes/dashboard/practice/index'
+import { Route as DashboardPracticeLessonIdRouteImport } from './routes/dashboard/practice/$lessonId'
+import { Route as DashboardProgressIndexRouteImport } from './routes/dashboard/progress/index'
+import { Route as DashboardStatsIndexRouteImport } from './routes/dashboard/stats/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +60,47 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardWbRoute = DashboardWbRouteImport.update({
+  id: '/wb',
+  path: '/wb',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardPlayerIndexRoute = DashboardPlayerIndexRouteImport.update({
+  id: '/player/',
+  path: '/player/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardPlayerLessonIdRoute = DashboardPlayerLessonIdRouteImport.update({
+  id: '/player/$lessonId',
+  path: '/player/$lessonId',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardPracticeIndexRoute = DashboardPracticeIndexRouteImport.update({
+  id: '/practice/',
+  path: '/practice/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardPracticeLessonIdRoute =
+  DashboardPracticeLessonIdRouteImport.update({
+    id: '/practice/$lessonId',
+    path: '/practice/$lessonId',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardProgressIndexRoute = DashboardProgressIndexRouteImport.update({
+  id: '/progress/',
+  path: '/progress/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardStatsIndexRoute = DashboardStatsIndexRouteImport.update({
+  id: '/stats/',
+  path: '/stats/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +109,15 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/dashboard/wb': typeof DashboardWbRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/player/$lessonId': typeof DashboardPlayerLessonIdRoute
+  '/dashboard/practice/$lessonId': typeof DashboardPracticeLessonIdRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/player/': typeof DashboardPlayerIndexRoute
+  '/dashboard/practice/': typeof DashboardPracticeIndexRoute
+  '/dashboard/progress/': typeof DashboardProgressIndexRoute
+  '/dashboard/stats/': typeof DashboardStatsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,7 +125,15 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/dashboard/wb': typeof DashboardWbRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/player/$lessonId': typeof DashboardPlayerLessonIdRoute
+  '/dashboard/practice/$lessonId': typeof DashboardPracticeLessonIdRoute
+  '/dashboard/admin': typeof DashboardAdminIndexRoute
+  '/dashboard/player': typeof DashboardPlayerIndexRoute
+  '/dashboard/practice': typeof DashboardPracticeIndexRoute
+  '/dashboard/progress': typeof DashboardProgressIndexRoute
+  '/dashboard/stats': typeof DashboardStatsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,7 +143,15 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/dashboard/wb': typeof DashboardWbRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/player/$lessonId': typeof DashboardPlayerLessonIdRoute
+  '/dashboard/practice/$lessonId': typeof DashboardPracticeLessonIdRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/player/': typeof DashboardPlayerIndexRoute
+  '/dashboard/practice/': typeof DashboardPracticeIndexRoute
+  '/dashboard/progress/': typeof DashboardProgressIndexRoute
+  '/dashboard/stats/': typeof DashboardStatsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,7 +162,15 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/wb'
     | '/dashboard/'
+    | '/dashboard/player/$lessonId'
+    | '/dashboard/practice/$lessonId'
+    | '/dashboard/admin/'
+    | '/dashboard/player/'
+    | '/dashboard/practice/'
+    | '/dashboard/progress/'
+    | '/dashboard/stats/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -97,7 +178,15 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/wb'
     | '/dashboard'
+    | '/dashboard/player/$lessonId'
+    | '/dashboard/practice/$lessonId'
+    | '/dashboard/admin'
+    | '/dashboard/player'
+    | '/dashboard/practice'
+    | '/dashboard/progress'
+    | '/dashboard/stats'
   id:
     | '__root__'
     | '/'
@@ -106,7 +195,15 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/wb'
     | '/dashboard/'
+    | '/dashboard/player/$lessonId'
+    | '/dashboard/practice/$lessonId'
+    | '/dashboard/admin/'
+    | '/dashboard/player/'
+    | '/dashboard/practice/'
+    | '/dashboard/progress/'
+    | '/dashboard/stats/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -169,15 +266,87 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/wb': {
+      id: '/dashboard/wb'
+      path: '/wb'
+      fullPath: '/dashboard/wb'
+      preLoaderRoute: typeof DashboardWbRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/admin/': {
+      id: '/dashboard/admin/'
+      path: '/admin'
+      fullPath: '/dashboard/admin/'
+      preLoaderRoute: typeof DashboardAdminIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/player/': {
+      id: '/dashboard/player/'
+      path: '/player'
+      fullPath: '/dashboard/player/'
+      preLoaderRoute: typeof DashboardPlayerIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/player/$lessonId': {
+      id: '/dashboard/player/$lessonId'
+      path: '/player/$lessonId'
+      fullPath: '/dashboard/player/$lessonId'
+      preLoaderRoute: typeof DashboardPlayerLessonIdRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/practice/': {
+      id: '/dashboard/practice/'
+      path: '/practice'
+      fullPath: '/dashboard/practice/'
+      preLoaderRoute: typeof DashboardPracticeIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/practice/$lessonId': {
+      id: '/dashboard/practice/$lessonId'
+      path: '/practice/$lessonId'
+      fullPath: '/dashboard/practice/$lessonId'
+      preLoaderRoute: typeof DashboardPracticeLessonIdRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/progress/': {
+      id: '/dashboard/progress/'
+      path: '/progress'
+      fullPath: '/dashboard/progress/'
+      preLoaderRoute: typeof DashboardProgressIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/stats/': {
+      id: '/dashboard/stats/'
+      path: '/stats'
+      fullPath: '/dashboard/stats/'
+      preLoaderRoute: typeof DashboardStatsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface DashboardRouteRouteChildren {
+  DashboardWbRoute: typeof DashboardWbRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardPlayerLessonIdRoute: typeof DashboardPlayerLessonIdRoute
+  DashboardPracticeLessonIdRoute: typeof DashboardPracticeLessonIdRoute
+  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
+  DashboardPlayerIndexRoute: typeof DashboardPlayerIndexRoute
+  DashboardPracticeIndexRoute: typeof DashboardPracticeIndexRoute
+  DashboardProgressIndexRoute: typeof DashboardProgressIndexRoute
+  DashboardStatsIndexRoute: typeof DashboardStatsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardWbRoute: DashboardWbRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardPlayerLessonIdRoute: DashboardPlayerLessonIdRoute,
+  DashboardPracticeLessonIdRoute: DashboardPracticeLessonIdRoute,
+  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
+  DashboardPlayerIndexRoute: DashboardPlayerIndexRoute,
+  DashboardPracticeIndexRoute: DashboardPracticeIndexRoute,
+  DashboardProgressIndexRoute: DashboardProgressIndexRoute,
+  DashboardStatsIndexRoute: DashboardStatsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

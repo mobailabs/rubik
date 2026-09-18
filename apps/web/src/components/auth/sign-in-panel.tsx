@@ -1,19 +1,16 @@
 import { AuthHeading } from "./auth-heading"
-import { AuthLink } from "./auth-link"
 import { Divider } from "./divider"
 import { EmailSignInForm } from "./email-sign-in-form"
-import { SocialSignIn } from "./social-sign-in"
+import { SocialSignIn, oauthEnabled } from "./social-sign-in"
 
+// 没有「注册」入口：自用单用户，注册在服务端已关死（/sign-up 会重定向到这里）。
 export function SignInPanel() {
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading title="Sign in" />
       <EmailSignInForm />
-      <Divider label="or" />
+      {oauthEnabled && <Divider label="or" />}
       <SocialSignIn />
-      <p className="text-white/70 text-sm">
-        No account? <AuthLink to="/sign-up">Create one</AuthLink>
-      </p>
     </div>
   )
 }

@@ -9,13 +9,41 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/trpc/*", "/api/*"],
   },
-  "routes": [{ "pattern": "rubik.sachi.dev", "custom_domain": true }],
-  "workers_dev": false,
+  // 自定义域先不接：本账号名下没有任何 zone，挂自有域会因 zone 不存在而 deploy 失败。
+  // 先走 workers.dev（https://rubik.sajo66319.workers.dev），自有域名接入账号后再换成
+  // routes + workers_dev:false，并同步改下面的 APP_URL / BETTER_AUTH_URL。
+  "workers_dev": true,
   // Production values. `wrangler dev` overrides these from .dev.vars.
   "vars": {
-    "APP_URL": "https://rubik.sachi.dev",
-    "BETTER_AUTH_URL": "https://rubik.sachi.dev",
-    "EMAIL_FROM": "no-reply@rubik.sachi.dev",
+    "APP_URL": "https://rubik.sajo66319.workers.dev",
+    "BETTER_AUTH_URL": "https://rubik.sajo66319.workers.dev",
+    // ⚠️ 这个域没接进 CF、也没配邮件发送，现在发件必然失败（见 src/email/index.ts，
+    // send() 会把失败直接抛出去）。要用验证邮件 / 重置密码，得先让 EMAIL binding 真能发信：
+    // CF Dashboard → Email Routing → Destination addresses 验证收件地址，
+    // 再把这里换成已验证域下的地址。在此之前生产环境注册是走不通的。
+    "EMAIL_FROM": "no-reply@rubik.sajo66319.workers.dev",
+    // 上传用的对象存储（MinIO）。密钥不写在这里，走 wrangler secret：
+    //   S3_ACCESS_KEY_ID / S3_SECRET_ACCESS_KEY
+    "S3_ENDPOINT": "https://s3.wiseme.ren",
+    "S3_PUBLIC_BASE_URL": "https://s3.wiseme.ren",
+    "S3_REGION": "us-east-1",
+    "S3_BUCKET": "temp",
+    "S3_PREFIX": "tts",
+    // 音频转写（omlx / whisper）。ASR_KEY 走 wrangler secret。
+    "ASR_API": "https://omlx.wiseme.ren",
+    "ASR_MODEL": "whisper-large-v3-turbo-asr-fp16",
+    // 管理员逃生舱：只在库里一个 admin 都没有时生效（见 src/auth/bootstrap.ts）。
+    // 非敏感，不用走 secret。
+    "BOOTSTRAP_ADMINS": "mikey@gmail.com",
+    // 自用单用户：注册默认关死（公网可达，开放注册等于把 S3 / whisper 送人）。
+    // 要临时开一个账号就改成 "true" 再 deploy，用完改回来。见 auth/policy.ts。
+    "ALLOW_SIGNUP": "false",
+  },
+  // 本机约定：一律绑 0.0.0.0，不要绑 127.0.0.1（`localhost` 优先解析 ::1，
+  // 绑 127.0.0.1 时 IPv4 probe 与部分客户端会打不通）。只影响本地 dev / preview。
+  "dev": {
+    "ip": "0.0.0.0",
+    "port": 8787,
   },
   // `remote: true` proxies local `wrangler dev` sends to the real service, so
   // verification mail works in development.

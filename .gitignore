@@ -12,6 +12,10 @@ node_modules
 .env.test.local
 .env.production.local
 
+# Wrangler 本地密钥（含 DB 密码 / S3 密钥，绝不能提交）
+.dev.vars
+.prod.vars
+
 # Testing
 coverage
 
@@ -29,6 +33,10 @@ coverage
 out/
 build
 dist
+
+# 脚本的 esbuild 打包产物（scripts/*.ts 用 esbuild 打成 .cjs 直接跑，
+# 每个都有个同名 .ts 源文件）。这些是产物不是源码，进仓库只会让 diff 噪音很大。
+scripts/*.cjs
 
 
 # Debug

@@ -10,7 +10,19 @@ export type NavEntry = {
   to?: LinkProps["to"]
 }
 
-export function NavItem({ label, icon: Icon, to }: NavEntry) {
+export function NavItem({
+  label,
+  icon: Icon,
+  to,
+  className,
+  layoutId = "sidebar-active",
+  onNavigate,
+}: NavEntry & {
+  /** Per-instance overrides — the mobile sheet renders the same entries taller. */
+  className?: string
+  layoutId?: string
+  onNavigate?: () => void
+}) {
   const matchRoute = useMatchRoute()
 
   if (!to) {
@@ -18,7 +30,10 @@ export function NavItem({ label, icon: Icon, to }: NavEntry) {
       <li>
         <div
           aria-disabled
-          className="text-sidebar-foreground/40 flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-sm select-none"
+          className={cn(
+            "text-sidebar-foreground/40 flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-sm select-none",
+            className,
+          )}
         >
           <Icon className="size-4" aria-hidden />
           <span>{label}</span>
@@ -36,16 +51,18 @@ export function NavItem({ label, icon: Icon, to }: NavEntry) {
     <li>
       <Link
         to={to}
+        onClick={onNavigate}
         className={cn(
           "focus-visible:ring-sidebar-ring/50 relative flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-sm transition-colors focus-visible:ring-3 focus-visible:outline-none",
           active
             ? "text-sidebar-accent-foreground"
             : "text-sidebar-foreground/70 hover:text-sidebar-foreground",
+          className,
         )}
       >
         {active && (
           <motion.span
-            layoutId="sidebar-active"
+            layoutId={layoutId}
             className="bg-sidebar-accent absolute inset-0 rounded-lg"
             transition={{ type: "spring", bounce: 0, duration: 0.3 }}
           />

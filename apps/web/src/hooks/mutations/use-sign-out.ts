@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { authClient } from "@/lib/auth"
+import { forgetGuardCache } from "@/lib/guards"
 
 export function useSignOut() {
   const navigate = useNavigate()
@@ -13,6 +14,7 @@ export function useSignOut() {
     },
     onSuccess: async () => {
       queryClient.clear()
+      forgetGuardCache()
       await navigate({ to: "/sign-in" })
     },
   })

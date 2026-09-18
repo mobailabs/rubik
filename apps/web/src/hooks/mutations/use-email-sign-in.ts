@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { authClient, unwrap } from "@/lib/auth"
+import { forgetGuardCache, HOME_PATH } from "@/lib/guards"
 
 export type EmailSignIn = {
   email: string
@@ -16,11 +17,14 @@ export function useEmailSignIn() {
       unwrap(
         await authClient.signIn.email({
           ...input,
-          callbackURL: `${window.location.origin}/dashboard`,
+          callbackURL: `${window.location.origin}${HOME_PATH}`,
         }),
         "Could not sign in.",
       )
     },
-    onSuccess: () => navigate({ to: "/dashboard" }),
+    onSuccess: () => {
+      forgetGuardCache()
+      return navigate({ to: HOME_PATH })
+    },
   })
 }

@@ -16,7 +16,7 @@ pnpm workspaces, orchestrated by Turborepo.
 ## Commands
 
 - `pnpm dev` runs web (5173) and api (8787) together.
-- `pnpm run deploy` builds the SPA and deploys the worker, which serves both at rubik.sachi.dev. It must be `pnpm run deploy`: plain `pnpm deploy` is pnpm's own command. Production vars live in `wrangler.jsonc`; `.dev.vars` overrides them in dev; secrets go in with `pnpm --filter @repo/api secrets`, which bulk-uploads `apps/api/.prod.vars` (gitignored, keys in `.prod.vars.example`).
+- `pnpm run deploy` builds the SPA and deploys the worker, which serves both at https://rubik.sajo66319.workers.dev (workers.dev; this account owns no zones, so a custom domain cannot be attached yet). It must be `pnpm run deploy`: plain `pnpm deploy` is pnpm's own command. Production vars live in `wrangler.jsonc`; `.dev.vars` overrides them in dev; secrets go in with `pnpm --filter @repo/api secrets`, which bulk-uploads `apps/api/.prod.vars` (gitignored, keys in `.prod.vars.example`).
 - `pnpm check-types` is the real gate. `pnpm lint` is broken repo-wide: typescript-eslint 8 rejects TS 7.
 - `pnpm --filter @repo/db db:push` / `db:studio` / `db:generate`. Drizzle reads `DATABASE_URL` from `apps/api/.dev.vars`.
 - Rerun `pnpm --filter @repo/api cf-typegen` after every `wrangler.jsonc` change. It regenerates the global `Env` interface in `worker-configuration.d.ts` from the config plus `.dev.vars`, which is what the Worker types against. Never hand-write `Env`.

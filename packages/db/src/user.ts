@@ -2,11 +2,15 @@ import { relations } from "drizzle-orm"
 import {
   boolean,
   index,
+  pgEnum,
   pgTable,
   text,
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core"
+
+/** 角色是封闭集合：判断权限只认这两个值。 */
+export const userRole = pgEnum("user_role", ["user", "admin"])
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -14,6 +18,13 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  role: userRole("role").default("user").notNull(),
+  // 封禁三件套。判定入口在 apps/api/src/auth/policy.ts 的 checkBan；
+  // 注意 better-auth 只在「建会话」时看 banned，所以封禁必须同时清 session
+  // （见 trpc/routers/admin.ts 的 setBanned）。
+  banned: boolean("banned").default(false).notNull(),
+  banReason: text("ban_reason"),
+  banExpires: timestamp("ban_expires"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
@@ -33,6 +44,8 @@ export const session = pgTable(
       .notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
+    // better-auth admin 插件要求（本期不用）。
+    impersonatedBy: text("impersonated_by"),
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),

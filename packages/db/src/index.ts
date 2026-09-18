@@ -6,4 +6,18 @@ export function createDB(databaseUrl: string) {
 }
 
 export * from "./schema"
-export { eq, and, not } from "drizzle-orm"
+export {
+  eq,
+  and,
+  or,
+  not,
+  desc,
+  asc,
+  count,
+  inArray,
+  ilike,
+  lte,
+  gte,
+  sql,
+} from "drizzle-orm"
+export { alias } from "drizzle-orm/pg-core"
